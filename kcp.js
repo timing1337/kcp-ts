@@ -128,7 +128,7 @@ function segmentSize(seg) {
     return KCP_OVERHEAD + seg.data.length;
 }
 class Kcp {
-    constructor(conv, token, output, stream = false) {
+    constructor(conv, token, output, stream = false, zeroMsShowcase = false) {
         this.conv = conv >>> 0;
         this.token = token >>> 0;
         this.sndUna = 0;
@@ -166,6 +166,7 @@ class Kcp {
         this.interval = KCP_INTERVAL;
         this.tsFlush = KCP_INTERVAL;
         this.ssThresh = KCP_THRESH_INIT;
+        this.zeroMsShowcase = zeroMsShowcase;
         this.output = output;
     }
     /// Check buffer size without actually consuming it
@@ -404,7 +405,10 @@ class Kcp {
             const cmd = buf.readUInt8(8);
             const frg = buf.readUInt8(9);
             const wnd = buf.readUInt16LE(10);
-            const ts = buf.readUInt32LE(12);
+            let ts = buf.readUInt32LE(12);
+            if (this.zeroMsShowcase) {
+                ts = 0;
+            }
             const sn = buf.readUInt32LE(16);
             const una = buf.readUInt32LE(20);
             const len = buf.readUInt32LE(24);

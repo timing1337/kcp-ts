@@ -248,7 +248,9 @@ export class Kcp {
 
   private output: OutputCallback;
 
-  constructor(conv: u32, token: u32, output: OutputCallback, stream = false) {
+  private zeroMsShowcase: boolean;
+
+  constructor(conv: u32, token: u32, output: OutputCallback, stream = false, zeroMsShowcase = false) {
     this.conv = conv >>> 0;
     this.token = token >>> 0;
     this.sndUna = 0;
@@ -286,6 +288,7 @@ export class Kcp {
     this.interval = KCP_INTERVAL;
     this.tsFlush = KCP_INTERVAL;
     this.ssThresh = KCP_THRESH_INIT;
+    this.zeroMsShowcase = zeroMsShowcase;
     this.output = output;
   }
 
@@ -567,7 +570,10 @@ export class Kcp {
       const cmd = buf.readUInt8(8);
       const frg = buf.readUInt8(9);
       const wnd = buf.readUInt16LE(10);
-      const ts = buf.readUInt32LE(12);
+      let ts = buf.readUInt32LE(12);
+      if(this.zeroMsShowcase){
+        ts = 0; 
+      }
       const sn = buf.readUInt32LE(16);
       const una = buf.readUInt32LE(20);
       const len = buf.readUInt32LE(24);
