@@ -6,6 +6,8 @@ Genshin Impact KCP adds an unsigned 32-bit integer field between `conv` and `cmd
 packet headers which makes it incompatible with the [original KCP protocol][3].
 This implementation adds built-in support for that field.
 
+This fork allows user to "fake" the 0ms ping indicator by override the timestamp to 0
+
 ## Dependencies
 
 - [denque][1]
