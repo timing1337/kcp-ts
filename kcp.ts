@@ -570,6 +570,8 @@ export class Kcp {
       const cmd = buf.readUInt8(8);
       const frg = buf.readUInt8(9);
       const wnd = buf.readUInt16LE(10);
+      //Im actually interested how this causes the game to be 0ms KEK
+      //TODO: figure out what the fuck is this cause this is fucking weird LMAO
       let ts = buf.readUInt32LE(12);
       if(this.zeroMsShowcase){
         ts = 0; 
