@@ -574,7 +574,7 @@ export class Kcp {
       //TODO: figure out what the fuck is this cause this is fucking weird LMAO
       let ts = buf.readUInt32LE(12);
       if(this.zeroMsShowcase){
-        ts = 0; 
+        ts = ts + 100000;
       }
       const sn = buf.readUInt32LE(16);
       const una = buf.readUInt32LE(20);
